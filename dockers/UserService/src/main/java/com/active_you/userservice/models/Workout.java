@@ -1,5 +1,6 @@
 package com.active_you.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,10 @@ public class Workout {
     private String name;
     private String type;
 
-    @ManyToMany(mappedBy = "workouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "myWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Person> persons = new HashSet<>();
+
+    @ManyToMany(mappedBy = "onWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Exercise> exercises = new HashSet<>();
 }

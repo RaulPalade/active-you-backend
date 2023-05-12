@@ -26,5 +26,5 @@ public class Person {
             joinColumns = {@JoinColumn(name = "id_person")},
             inverseJoinColumns = {@JoinColumn(name = "id_workout")}
     )
-    private Set<Workout> workouts = new HashSet<>();
+    private Set<Workout> myWorkouts = new HashSet<>();
 }

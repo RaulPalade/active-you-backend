@@ -26,4 +26,9 @@ public class PersonController {
     public List<Person> findAllByName(@PathVariable String name) {
         return personService.findAllByName(name);
     }
+
+    @PostMapping
+    public Person addPerson(@RequestBody Person newPerson) {
+        return personService.addPerson(newPerson);
+    }
 }

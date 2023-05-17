@@ -1,12 +1,14 @@
 package com.active_you.userservice.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
 @Entity
 @Table
 public class Person {
@@ -27,4 +29,8 @@ public class Person {
             inverseJoinColumns = {@JoinColumn(name = "id_workout")}
     )
     private Set<Workout> myWorkouts = new HashSet<>();
+
+    public Person() {
+
+    }
 }

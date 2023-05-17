@@ -41,6 +41,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://dbperson:5432/person
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
 
   workout:
@@ -57,4 +58,4 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://dbworkout:5432/workout
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update

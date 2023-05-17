@@ -7,12 +7,12 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  dbuser:
+  dbperson:
     image: "postgres:15.2"
     ports:
       - "5432"
     environment:
-      POSTGRES_DB: user
+      POSTGRES_DB: person
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       restart: unless-stopped
@@ -27,18 +27,21 @@ services:
       POSTGRES_PASSWORD: root
       restart: unless-stopped
 
-
   user:
     build: ./userService
     image: user-service
     container_name: user-service
     ports:
       - "8080:8080"
+    depends_on:
+      - dbperson
+      - rabbitmq
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
-    depends_on:
-      - dbuser
-      - rabbitmq
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbperson:5432/person
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
 
   workout:
     build: ./workoutService
@@ -46,9 +49,12 @@ services:
     container_name: workout-service
     ports:
       - "8081:8081"
-    environment:
-      SPRING_RABBITMQ_HOST: rabbitmq
     depends_on:
       - dbworkout
       - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbworkout:5432/workout
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 

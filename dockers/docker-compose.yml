@@ -1,0 +1,54 @@
+version: '1'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  dbuser:
+    image: "postgres:15.2"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      restart: unless-stopped
+
+  dbworkout:
+    image: "postgres:15.2"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: workout
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      restart: unless-stopped
+
+
+  user:
+    build: ./userService
+    image: user-service
+    container_name: user-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - dbuser
+      - rabbitmq
+
+  workout:
+    build: ./workoutService
+    image: workout-service
+    container_name: workout-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - dbworkout
+      - rabbitmq
+

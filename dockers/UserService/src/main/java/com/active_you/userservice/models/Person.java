@@ -30,6 +30,9 @@ public class Person {
     )
     private Set<Workout> myWorkouts = new HashSet<>();
 
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Goal> myGoals = new HashSet<>();
+
     public Person() {
 
     }

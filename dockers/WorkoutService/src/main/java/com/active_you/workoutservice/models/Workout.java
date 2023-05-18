@@ -1,6 +1,5 @@
-package com.active_you.userservice.models;
+package com.active_you.workoutservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,10 +21,6 @@ public class Workout {
     private Timestamp endDate;
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean completed = false;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "myWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Person> persons = new HashSet<>();
 
     @ManyToMany(mappedBy = "onWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Exercise> exercises = new HashSet<>();

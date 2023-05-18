@@ -1,4 +1,4 @@
-## RabbitMQ
+# RabbitMQ
 
 ### Installation
 
@@ -32,6 +32,7 @@
    - Open a browser and visit: http://localhost:15672/
    - Login with the default credentials: username: `guest`, password: `guest`
 
+
 # Docker Compose README
 
 ## Prerequisites
@@ -52,22 +53,25 @@
 
 The application should now be running and accessible according to the configuration defined in your `docker-compose.yml` file.
 
-## Logging into PostgreSQL
+## Connecting to the PostgreSQL Database
 1. Open your terminal or command prompt.
-2. Run the command `psql -U postgres` to log in to PostgreSQL as the `postgres` user.
+2. Run the command `docker exec -it <postgres_container_id> psql -U <postgres_user> -d <database_name>` to connect to the PostgreSQL database running on Docker.
+   - Replace `<postgres_container_id>` with the ID or name of the PostgreSQL container.
+   - Replace `<postgres_user>` with the username for the PostgreSQL database (e.g., `postgres`).
+   - Replace `<database_name>` with the name of the specific database you want to connect to.
 
 ## Basic PostgreSQL Commands
 Here are some basic commands that you can use in the PostgreSQL terminal:
 
 - `\l`: List all databases.
-- `\c database_name`: Connect to a specific database.
+- `\c <database_name>`: Connect to a specific database.
 - `\dt`: List all tables in the current database.
-- `SELECT * FROM table_name;`: Retrieve all records from a specific table.
-- `INSERT INTO table_name (column1, column2) VALUES (value1, value2);`: Insert a new record into a table.
+- `SELECT * FROM <table_name>;`: Retrieve all records from a specific table.
+- `INSERT INTO <table_name> (column1, column2) VALUES (value1, value2);`: Insert a new record into a table.
 
 Feel free to explore more advanced PostgreSQL commands and features in the official PostgreSQL documentation.
 
 ## Conclusion
-This README has provided you with the basic instructions for building and updating an application using Docker Compose. Make sure to refer to the official Docker Compose documentation for more advanced features and available options.
+This README has provided you with the basic instructions for building and updating an application using Docker Compose, along with connecting to a PostgreSQL database running on Docker. Make sure to refer to the official Docker Compose and PostgreSQL documentation for more advanced features and available options.
 
 Happy coding!

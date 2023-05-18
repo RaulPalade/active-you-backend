@@ -1,9 +1,9 @@
 package com.active_you.userservice.services;
 
 import com.active_you.userservice.models.Person;
+import com.active_you.userservice.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

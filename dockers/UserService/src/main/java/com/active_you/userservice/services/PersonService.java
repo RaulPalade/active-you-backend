@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonService {
@@ -22,6 +23,10 @@ public class PersonService {
 
     public List<Person> findAllByName(String name) {
         return personRepository.findAllByName(name);
+    }
+
+    public Person findById(Integer id) {
+        return personRepository.findById(id);
     }
 
     public Person addPerson(Person newPerson) {

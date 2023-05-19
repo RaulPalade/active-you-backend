@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -22,9 +23,14 @@ public class PersonController {
         return personService.getAllUsers();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<Person> findAllByName(@PathVariable String name) {
         return personService.findAllByName(name);
+    }
+
+    @GetMapping("/{id}")
+    public Person findByID(@PathVariable Integer id) {
+        return personService.findById(id);
     }
 
     @PostMapping

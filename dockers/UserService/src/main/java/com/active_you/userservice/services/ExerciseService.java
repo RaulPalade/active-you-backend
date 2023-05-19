@@ -1,6 +1,7 @@
 package com.active_you.userservice.services;
 
-import com.active_you.workoutservice.repository.ExerciseRepository;
+
+import com.active_you.userservice.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

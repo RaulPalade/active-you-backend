@@ -29,8 +29,20 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person findByID(@PathVariable Long id) {
+    public Optional<Person> findByID(@PathVariable Long id) {
         return personService.findById(Math.toIntExact(id));
+    }
+
+    @PostMapping("/follow")
+    public Person followPerson(@RequestBody Long id) {
+        // TODO
+        return null;
+    }
+
+    @PostMapping("/unfollow/{id}")
+    public Person unfollowPerson(@PathVariable Long id) {
+        // TODO
+        return null;
     }
 
     @PostMapping

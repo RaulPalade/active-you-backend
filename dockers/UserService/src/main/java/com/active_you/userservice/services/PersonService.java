@@ -25,8 +25,8 @@ public class PersonService {
         return personRepository.findAllByName(name);
     }
 
-    public Person findById(Integer id) {
-        return personRepository.findById(id);
+    public Optional<Person> findById(Integer id) {
+        return personRepository.findById(Long.valueOf(id));
     }
 
     public Person addPerson(Person newPerson) {

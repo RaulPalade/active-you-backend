@@ -33,6 +33,17 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Goal> myGoals = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "person_follow",
+            joinColumns = {@JoinColumn(name = "follower_id")},
+            inverseJoinColumns = {@JoinColumn(name = "following_id")}
+    )
+    private Set<Person> following = new HashSet<>();
+
+    @ManyToMany(mappedBy = "following")
+    private Set<Person> followers = new HashSet<>();
+
     public Person() {
 
     }

@@ -29,8 +29,8 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person findByID(@PathVariable Integer id) {
-        return personService.findById(id);
+    public Person findByID(@PathVariable Long id) {
+        return personService.findById(Math.toIntExact(id));
     }
 
     @PostMapping

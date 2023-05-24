@@ -32,4 +32,8 @@ public class PersonService {
     public Person addPerson(Person newPerson) {
         return personRepository.save(newPerson);
     }
+
+    public boolean deleteById(Long id){personRepository.deleteById(id);
+        return true;
+    }
 }

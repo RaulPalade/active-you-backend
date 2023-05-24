@@ -49,4 +49,7 @@ public class PersonController {
     public Person addPerson(@RequestBody Person newPerson) {
         return personService.addPerson(newPerson);
     }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteById(@PathVariable Long id){ return personService.deleteById(id);}
 }

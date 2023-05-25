@@ -36,4 +36,12 @@ public class PersonService {
     public boolean deleteById(Long id){personRepository.deleteById(id);
         return true;
     }
+
+    public void addFollower(Long id1, Long id2) {
+        personRepository.addFollower(id1,id2);
+    }
+
+    public void removeFollower(Long id1, Long id2) {
+        personRepository.removeFollower(id1,id2);
+    }
 }

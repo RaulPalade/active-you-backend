@@ -3,6 +3,8 @@ package com.active_you.userservice.controllers;
 import com.active_you.userservice.models.Person;
 import com.active_you.userservice.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,16 +35,16 @@ public class PersonController {
         return personService.findById(Math.toIntExact(id));
     }
 
-    @PostMapping("/follow")
-    public Person followPerson(@RequestBody Long id) {
-        // TODO
-        return null;
+    @PostMapping("/{id1}/follow/{id2}")
+    public ResponseEntity<String> followPerson(@PathVariable Long id1, @PathVariable Long id2) {
+        personService.addFollower(id1, id2);
+        return new ResponseEntity<>("Follower added successfully", HttpStatus.CREATED);
     }
 
-    @PostMapping("/unfollow/{id}")
-    public Person unfollowPerson(@PathVariable Long id) {
-        // TODO
-        return null;
+    @PostMapping("/{id1}/unfollow/{id2}")
+    public ResponseEntity<String> unfollowPerson(@PathVariable Long id1,@PathVariable Long id2) {
+        personService.removeFollower(id1, id2);
+        return new ResponseEntity<>("Follower added successfully", HttpStatus.CREATED);
     }
 
     @PostMapping

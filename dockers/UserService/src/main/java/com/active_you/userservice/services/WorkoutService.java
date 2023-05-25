@@ -1,6 +1,7 @@
 package com.active_you.userservice.services;
 
 
+import com.active_you.userservice.models.Workout;
 import com.active_you.userservice.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,5 +13,9 @@ public class WorkoutService {
     @Autowired
     public WorkoutService(WorkoutRepository workoutRepository) {
         this.workoutRepository = workoutRepository;
+    }
+
+    public Workout create(Workout workout) {
+        return workoutRepository.save(workout);
     }
 }

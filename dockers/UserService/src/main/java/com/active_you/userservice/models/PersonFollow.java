@@ -3,36 +3,27 @@ package com.active_you.userservice.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
+
 
 @Data
 @AllArgsConstructor
-@ToString
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "from_person_fk", "to_person_fk" }))
 public class PersonFollow {
-
-    @EmbeddedId
-    private PersonFollowId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @ManyToOne
-    @MapsId("fromId")
     @JoinColumn(name = "from_person_fk")
     private Person from;
 
     @ManyToOne
-    @MapsId("toId")
     @JoinColumn(name = "to_person_fk")
     private Person to;
 
-
     public PersonFollow() {
 
-    }
-
-    public PersonFollow(Person from, Person to) {
-        this.from = from;
-        this.to = to;
     }
 
     public Long getFromId() {

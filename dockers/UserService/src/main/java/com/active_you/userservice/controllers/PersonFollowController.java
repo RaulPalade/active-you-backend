@@ -17,8 +17,8 @@ public class PersonFollowController {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<String> followPerson(@RequestParam("from") Long id1, @RequestParam("to") Long id2) {
-        return personFollowService.followPerson(id1, id2);
+    public ResponseEntity<String> followPerson(@RequestBody PersonFollow personFollow) {
+        return personFollowService.followPerson(personFollow);
     }
 
     @DeleteMapping("/unfollow")

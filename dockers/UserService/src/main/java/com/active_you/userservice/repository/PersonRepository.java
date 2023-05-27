@@ -20,7 +20,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value = "SELECT w.*, pw.init_date, pw.end_date, pw.completed " +
+    @Query(value = "SELECT w.id, w.created_by_id, w.name, w.type, pw.init_date, pw.end_date, pw.completed " +
             "FROM person_workout pw " +
             "JOIN workout w ON pw.id_workout = w.id " +
             "WHERE pw.id_person = :personId", nativeQuery = true)

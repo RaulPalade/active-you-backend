@@ -1,6 +1,7 @@
 package com.active_you.userservice.services;
 
 import com.active_you.userservice.models.*;
+import com.active_you.userservice.repository.ExerciseRepository;
 import com.active_you.userservice.repository.PersonRepository;
 import com.active_you.userservice.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +9,21 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class PersonService {
     private final PersonRepository personRepository;
     private final WorkoutRepository workoutRepository;
+    private final ExerciseRepository exerciseRepository;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, WorkoutRepository workoutRepository) {
+    public PersonService(PersonRepository personRepository, WorkoutRepository workoutRepository, ExerciseRepository exerciseRepository) {
         this.personRepository = personRepository;
         this.workoutRepository = workoutRepository;
+        this.exerciseRepository = exerciseRepository;
     }
 
     public List<PersonDTO> getAllUsers() {
@@ -48,6 +51,9 @@ public class PersonService {
             personalWorkout.setInitDate(initDate);
             personalWorkout.setEndDate(endDate);
             personalWorkout.setCompleted(completed);
+
+            Set<Exercise> exercises = exerciseRepository.findByWorkoutId(workout.getId());
+            workout.setExercises(exercises);
 
             personalWorkouts.add(personalWorkout);
         }

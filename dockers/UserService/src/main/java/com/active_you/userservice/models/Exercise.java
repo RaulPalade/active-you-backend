@@ -1,5 +1,6 @@
 package com.active_you.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class Exercise {
             joinColumns = {@JoinColumn(name = "id_exercise")},
             inverseJoinColumns = {@JoinColumn(name = "id_workout")}
     )
+    @JsonIgnore
     private Set<Workout> onWorkouts = new HashSet<>();
 }

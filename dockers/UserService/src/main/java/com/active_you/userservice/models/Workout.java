@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 

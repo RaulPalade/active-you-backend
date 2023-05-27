@@ -11,6 +11,11 @@ import java.util.Set;
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("SELECT e FROM Exercise e WHERE e.id = :workoutId")
+    @Query(value = "SELECT e FROM Exercise e WHERE e.id = :workoutId", nativeQuery = true)
     Set<Exercise> findByWorkoutId(Long workoutId);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "insert into exercise_workout values (:exerciseId, :workoutId)", nativeQuery = true)
+    void addExerciseToWorkout(Long exerciseId, Long workoutId);
 }

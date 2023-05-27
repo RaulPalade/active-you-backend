@@ -36,10 +36,10 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Goal> myGoals = new HashSet<>();
 
-    @OneToMany(mappedBy= "to")
+    @OneToMany(mappedBy = "to")
     private List<PersonFollow> followers;
 
-    @OneToMany(mappedBy= "from")
+    @OneToMany(mappedBy = "from")
     private List<PersonFollow> following;
 
     public Person() {

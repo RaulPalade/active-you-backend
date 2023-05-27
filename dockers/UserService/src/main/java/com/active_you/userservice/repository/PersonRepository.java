@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    List<Person> findAllByName(String name);
 
     @NonNull
     Optional<Person> findById(@NonNull Long id);

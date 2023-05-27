@@ -36,4 +36,12 @@ public class PersonWorkout {
 
     public PersonWorkout() {
     }
+
+    public PersonWorkout(Person person, Workout workout, Timestamp initDate, Timestamp endDate, boolean completed) {
+        this.person = person;
+        this.workout = workout;
+        this.initDate = initDate;
+        this.endDate = endDate;
+        this.completed = completed;
+    }
 }

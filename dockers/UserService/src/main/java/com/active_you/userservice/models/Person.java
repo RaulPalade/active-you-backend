@@ -3,11 +3,14 @@ package com.active_you.userservice.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
+@ToString
 @AllArgsConstructor
 @Entity
 @Table
@@ -33,16 +36,11 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Goal> myGoals = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "person_follow",
-            joinColumns = {@JoinColumn(name = "follower_id")},
-            inverseJoinColumns = {@JoinColumn(name = "following_id")}
-    )
-    private Set<Person> following = new HashSet<>();
+    @OneToMany(mappedBy= "to")
+    private List<PersonFollow> followers;
 
-    @ManyToMany(mappedBy = "following")
-    private Set<Person> followers = new HashSet<>();
+    @OneToMany(mappedBy= "from")
+    private List<PersonFollow> following;
 
     public Person() {
 

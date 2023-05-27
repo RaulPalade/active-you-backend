@@ -1,6 +1,7 @@
 package com.active_you.userservice.controllers;
 
 import com.active_you.userservice.models.Person;
+import com.active_you.userservice.models.PersonDTO;
 import com.active_you.userservice.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<Person> getAllUsers() {
+    public List<PersonDTO> getAllUsers() {
         return personService.getAllUsers();
     }
 
@@ -32,19 +33,7 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public Optional<Person> findByID(@PathVariable Long id) {
-        return personService.findById(Math.toIntExact(id));
-    }
-
-    @PostMapping("/{id1}/follow/{id2}")
-    public ResponseEntity<String> followPerson(@PathVariable Long id1, @PathVariable Long id2) {
-        personService.addFollower(id1, id2);
-        return new ResponseEntity<>("Follower added successfully", HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{id1}/unfollow/{id2}")
-    public ResponseEntity<String> unfollowPerson(@PathVariable Long id1,@PathVariable Long id2) {
-        personService.removeFollower(id1, id2);
-        return new ResponseEntity<>("Follower added successfully", HttpStatus.CREATED);
+        return personService.findById((long) Math.toIntExact(id));
     }
 
     @PostMapping
@@ -53,5 +42,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteById(@PathVariable Long id){ return personService.deleteById(id);}
+    public boolean deleteById(@PathVariable Long id) {
+        return personService.deleteById(id);
+    }
 }

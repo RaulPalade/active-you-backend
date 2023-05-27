@@ -1,7 +1,6 @@
 package com.active_you.userservice.controllers;
 
-import com.active_you.userservice.models.Person;
-import com.active_you.userservice.models.PersonDTO;
+import com.active_you.userservice.models.*;
 import com.active_you.userservice.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,11 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> getAllUsers() {
         return personService.getAllUsers();
+    }
+
+    @GetMapping("/{id}/workouts")
+    public List<PersonWorkout> getPersonalWorkouts(@PathVariable Long id) {
+        return personService.getPersonalWorkouts(id);
     }
 
     @GetMapping("/name/{name}")

@@ -3,12 +3,14 @@ package com.active_you.userservice.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 
 @Data
+@ToString
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "from_person_fk", "to_person_fk" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"from_person_fk", "to_person_fk"}))
 public class PersonFollow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

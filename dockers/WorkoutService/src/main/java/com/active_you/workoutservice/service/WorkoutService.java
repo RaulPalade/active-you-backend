@@ -42,6 +42,17 @@ public class WorkoutService {
         }
     }
 
+    public ResponseEntity<String> addWorkout(Long createdBy, Workout workout) {
+        workout.setCreatedById(createdBy);
+        try {
+            workoutRepository.save(workout);
+            return new ResponseEntity<>("Workout added successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed to add workout", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public ResponseEntity<String> removeWorkout(Long id) {
         try {
             workoutRepository.deleteById(id);

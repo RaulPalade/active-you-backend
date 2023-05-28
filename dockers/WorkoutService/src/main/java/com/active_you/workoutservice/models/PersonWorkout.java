@@ -1,4 +1,4 @@
-package com.active_you.userservice.models;
+package com.active_you.workoutservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -12,18 +12,13 @@ import java.sql.Timestamp;
 @ToString
 @AllArgsConstructor
 @Entity
-@Table(name = "person_workout")  // Specifica il nome della tabella associativa
+@Table
 public class PersonWorkout {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "id_person")  // Colonna che fa riferimento all'ID della persona
-    @JsonIgnore
-    private Person person;
+    private Long idPerson;
 
     @ManyToOne
     @JoinColumn(name = "id_workout")  // Colonna che fa riferimento all'ID dell'allenamento
@@ -37,13 +32,4 @@ public class PersonWorkout {
     public PersonWorkout() {
 
     }
-
-    public PersonWorkout(Person person, Workout workout, Timestamp initDate, Timestamp endDate, boolean completed) {
-        this.person = person;
-        this.workout = workout;
-        this.initDate = initDate;
-        this.endDate = endDate;
-        this.completed = completed;
-    }
-
 }

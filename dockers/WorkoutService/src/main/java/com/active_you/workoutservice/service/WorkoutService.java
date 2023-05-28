@@ -3,10 +3,11 @@ package com.active_you.workoutservice.service;
 import com.active_you.workoutservice.models.Workout;
 import com.active_you.workoutservice.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class WorkoutService {
@@ -17,15 +18,31 @@ public class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
 
-    public List<Workout> findAll(){return workoutRepository.findAll();}
+    public List<Workout> findAll() {
+        return workoutRepository.findAll();
+    }
 
-    public Optional<Workout> getById(Long id){return workoutRepository.findById(id);}
+    public Workout getWorkoutById(Long id) {
+        return workoutRepository.findById(id).orElse(null);
+    }
 
-    public List<Workout> getByName(String name){return workoutRepository.findAllByName(name);}
+    public ResponseEntity<String> addWorkout(Workout workout) {
+        try {
+            workoutRepository.save(workout);
+            return new ResponseEntity<>("Workout added successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed to add workout", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-    public Workout addWorkout(Workout newWorkout) {return workoutRepository.save(newWorkout);}
-
-    public boolean deleteById(Long id) {workoutRepository.deleteById(id);
-        return true;
+    public ResponseEntity<String> removeWorkout(Long id) {
+        try {
+            workoutRepository.deleteById(id);
+            return new ResponseEntity<>("Workout removed successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed to remove workout", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

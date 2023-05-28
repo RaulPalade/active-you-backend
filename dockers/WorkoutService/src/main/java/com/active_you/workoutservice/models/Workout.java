@@ -1,9 +1,9 @@
 package com.active_you.workoutservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,11 +17,8 @@ public class Workout {
     private Long createdById;
     private String name;
     private String type;
-    private Timestamp initDate;
-    private Timestamp endDate;
-    @Column(columnDefinition = "BOOLEAN DEFAULT false")
-    private boolean completed = false;
 
-    @ManyToMany(mappedBy = "onWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Exercise> exercises = new HashSet<>();
 }

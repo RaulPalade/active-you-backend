@@ -21,7 +21,7 @@ public class PersonWorkout {
     private Long idPerson;
 
     @ManyToOne
-    @JoinColumn(name = "id_workout")  // Colonna che fa riferimento all'ID dell'allenamento
+    @JoinColumn(name = "id_workout")
     private Workout workout;
 
     private Timestamp initDate;

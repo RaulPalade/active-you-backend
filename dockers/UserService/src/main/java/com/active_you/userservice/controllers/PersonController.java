@@ -1,8 +1,12 @@
 package com.active_you.userservice.controllers;
 
+import com.active_you.userservice.utils.ExerciseMessage;
+import com.active_you.userservice.utils.WorkoutMessage;
 import com.active_you.userservice.models.*;
+import com.active_you.userservice.rabbitmq.RabbitMQConfig;
 import com.active_you.userservice.services.GoalService;
 import com.active_you.userservice.services.PersonService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +20,13 @@ import java.util.Set;
 public class PersonController {
     private final PersonService personService;
     private final GoalService goalService;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public PersonController(PersonService personService, GoalService goalService) {
+    public PersonController(PersonService personService, GoalService goalService, RabbitTemplate rabbitTemplate) {
         this.personService = personService;
         this.goalService = goalService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping
@@ -56,5 +62,15 @@ public class PersonController {
     @DeleteMapping("/{id}/goals/{goalId}")
     public ResponseEntity<String> removeGoal(@PathVariable Long id, @PathVariable Long goalId) {
         return goalService.removeGoal(id, goalId);
+    }
+
+    @PostMapping("/createWorkout")
+    public void createWorkout(@RequestBody Workout workout) {
+        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, new WorkoutMessage(workout, "createWorkout"));
+    }
+
+    @PostMapping("/createExercise")
+    public void createExercise(@RequestBody Exercise exercise) {
+        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, new ExerciseMessage(exercise, "createExercise"));
     }
 }

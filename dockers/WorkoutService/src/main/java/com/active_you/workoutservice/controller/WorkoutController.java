@@ -1,5 +1,6 @@
 package com.active_you.workoutservice.controller;
 
+import com.active_you.workoutservice.models.Exercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,15 @@ public class WorkoutController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> removeWorkout(@PathVariable Long id) {
         return workoutService.removeWorkout(id);
+    }
+
+    @PostMapping("{id}/exercises")
+    public ResponseEntity<String> addExercise(@PathVariable Long id, @RequestBody Exercise exercise) {
+        return workoutService.addExercise(id, exercise);
+    }
+
+    @GetMapping("/{id}/exercises")
+    public List<Exercise> getExercisesByWorkout(@PathVariable Long id) {
+        return workoutService.getExercisesByWorkout(id);
     }
 }

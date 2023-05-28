@@ -74,6 +74,8 @@ public class PersonService {
             personalWorkout.setEndDate(endDate);
             personalWorkout.setCompleted(completed);
 
+            System.out.println(workout.getId());
+
             Set<Exercise> exercises = exerciseRepository.findByWorkoutId(workout.getId());
             workout.setExercises(exercises);
 

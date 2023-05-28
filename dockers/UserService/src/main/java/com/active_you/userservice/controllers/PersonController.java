@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -25,43 +26,51 @@ public class PersonController {
         this.goalService = goalService;
     }
 
+    // WORKS
     @GetMapping
-    public List<PersonDTO> getAllPersons() {
+    public List<Person> getAllPersons() {
         return personService.getAllUsers();
     }
 
+    // WORKS
     @GetMapping("/{id}")
-    public Optional<Person> getPersonById(@PathVariable Long id) {
-        return personService.getPersonById((long) Math.toIntExact(id));
+    public Optional<SinglePersonDTO> getPersonById(@PathVariable Long id) {
+        return personService.getPersonById(Math.toIntExact(id));
     }
 
+    // WORKS
     @PostMapping
     public ResponseEntity<String> addPerson(@RequestBody Person newPerson) {
         return personService.addPerson(newPerson);
     }
 
+    // WORKS
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePerson(@PathVariable Long id) {
         return personService.deletePerson(id);
     }
 
+    // WORKS
     @GetMapping("/{id}/goals")
-    public List<Goal> getPersonalGoals(@PathVariable Long id) {
+    public Set<Goal> getPersonalGoals(@PathVariable Long id) {
         return goalService.getPersonalGoals(id);
     }
 
+    // WORKS
     @PostMapping("/{id}/goals")
-    public ResponseEntity<String> addGoal(@RequestBody Goal goal) {
-        return goalService.addGoal(goal);
+    public ResponseEntity<String> addGoal(@PathVariable Long id, @RequestBody Goal goal) {
+        return goalService.addGoal(id, goal);
     }
 
+    // WORKS
     @DeleteMapping("/{id}/goals/{goalId}")
     public ResponseEntity<String> removeGoal(@PathVariable Long id, @PathVariable Long goalId) {
         return goalService.removeGoal(id, goalId);
     }
 
+    // WORKS
     @GetMapping("/{id}/workouts")
-    public List<PersonWorkout> getPersonalWorkouts(@PathVariable Long id) {
+    public Set<PersonWorkout> getPersonalWorkouts(@PathVariable Long id) {
         return personService.getPersonalWorkouts(id);
     }
 

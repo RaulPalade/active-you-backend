@@ -1,9 +1,12 @@
 package com.active_you.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,25 +24,29 @@ public class Person {
     private String name;
     private String surname;
     private String email;
+    @JsonIgnore
     private String password;
+    private double height;
+    private String heightUnit;
+    private double weight;
+    private String weightUnit;
     private String sex;
     private String role;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "person_workout",
-            joinColumns = {@JoinColumn(name = "id_person")},
-            inverseJoinColumns = {@JoinColumn(name = "id_workout")}
-    )
-    private Set<Workout> myWorkouts = new HashSet<>();
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<PersonWorkout> myWorkouts = new HashSet<>();
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Goal> myGoals = new HashSet<>();
 
     @OneToMany(mappedBy = "to")
+    @JsonIgnore
     private List<PersonFollow> followers;
 
     @OneToMany(mappedBy = "from")
+    @JsonIgnore
     private List<PersonFollow> following;
 
     public Person() {

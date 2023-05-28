@@ -48,7 +48,7 @@ public class WorkoutService {
             return new ResponseEntity<>("Workout saved successfully", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to save workout unfollow", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to save workout", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

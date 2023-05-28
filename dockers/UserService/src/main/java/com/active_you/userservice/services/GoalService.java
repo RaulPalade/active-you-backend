@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class GoalService {
@@ -30,8 +28,11 @@ public class GoalService {
         return goalRepository.findById(id);
     }
 
-    public ResponseEntity<String> addGoal(Goal goal) {
+    public ResponseEntity<String> addGoal(Long id, Goal goal) {
         try {
+            Optional<Person> person = personRepository.findById(id);
+            person.ifPresent(goal::setPerson);
+            System.out.println(goal);
             goalRepository.save(goal);
             return new ResponseEntity<>("Goal added successfully", HttpStatus.OK);
         } catch (Exception e) {
@@ -54,12 +55,12 @@ public class GoalService {
         }
     }
 
-    public List<Goal> getPersonalGoals(Long id) {
+    public Set<Goal> getPersonalGoals(Long id) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
             return goalRepository.findGoalByPerson(person.get());
         } else {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
     }
 }

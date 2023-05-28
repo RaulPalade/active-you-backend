@@ -1,27 +1,20 @@
 package com.active_you.userservice.repository;
 
 import com.active_you.userservice.models.Person;
-import jakarta.transaction.Transactional;
+import com.active_you.userservice.models.PersonWorkout;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-
     @NonNull
     Optional<Person> findById(@NonNull Long id);
 
-    @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query(value = "SELECT w.id, w.created_by_id, w.name, w.type, pw.init_date, pw.end_date, pw.completed " +
-            "FROM person_workout pw " +
-            "JOIN workout w ON pw.id_workout = w.id " +
-            "WHERE pw.id_person = :personId", nativeQuery = true)
-    List<Object[]> getPersonalWorkouts(Long personId);
+    @Query("SELECT pw FROM PersonWorkout pw JOIN pw.workout w WHERE pw.person.id = :personId")
+    Set<PersonWorkout> getPersonalWorkouts(Long personId);
 }

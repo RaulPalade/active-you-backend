@@ -21,12 +21,12 @@ public class PersonWorkout {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "person_id")  // Colonna che fa riferimento all'ID della persona
+    @JoinColumn(name = "id_person")  // Colonna che fa riferimento all'ID della persona
     @JsonIgnore
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "workout_id")  // Colonna che fa riferimento all'ID dell'allenamento
+    @JoinColumn(name = "id_workout")  // Colonna che fa riferimento all'ID dell'allenamento
     private Workout workout;
 
     private Timestamp initDate;
@@ -44,4 +44,5 @@ public class PersonWorkout {
         this.endDate = endDate;
         this.completed = completed;
     }
+
 }

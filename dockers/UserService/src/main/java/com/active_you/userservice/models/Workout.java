@@ -1,6 +1,7 @@
 package com.active_you.userservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,16 +19,20 @@ public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long createdById;
     private String name;
     private String type;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "myWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Person> persons = new HashSet<>();
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PersonWorkout> personWorkouts = new HashSet<>();
 
     @ManyToMany(mappedBy = "onWorkouts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Exercise> exercises = new HashSet<>();
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_id")
+    private Person createdBy;
 
     public Workout() {
 

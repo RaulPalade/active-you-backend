@@ -26,6 +26,10 @@ public class PersonService {
         return personRepository.findById(id).map(SinglePersonDTO::new);
     }
 
+    public Person findByEmail(String email) {
+        return personRepository.findByEmail(email);
+    }
+
     public ResponseEntity<String> addPerson(Person newPerson) {
         try {
             personRepository.save(newPerson);

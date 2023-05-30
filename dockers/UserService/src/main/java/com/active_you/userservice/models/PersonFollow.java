@@ -1,9 +1,10 @@
 package com.active_you.userservice.models;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 
 @Data

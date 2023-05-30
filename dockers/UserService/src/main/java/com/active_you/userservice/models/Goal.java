@@ -1,11 +1,11 @@
 package com.active_you.userservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data

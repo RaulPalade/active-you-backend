@@ -2,11 +2,11 @@ package com.active_you.userservice.repository;
 
 import com.active_you.userservice.models.Goal;
 import com.active_you.userservice.models.Person;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Set;
 

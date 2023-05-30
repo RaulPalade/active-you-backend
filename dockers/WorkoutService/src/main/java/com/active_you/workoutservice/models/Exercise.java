@@ -1,9 +1,9 @@
 package com.active_you.workoutservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data

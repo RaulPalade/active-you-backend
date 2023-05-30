@@ -1,0 +1,8 @@
+zuul:
+  routes:
+    users:
+      path: /userService/**
+      service-id: user-service
+    workout:
+      path: /workoutService/**
+      service-id: workout-service

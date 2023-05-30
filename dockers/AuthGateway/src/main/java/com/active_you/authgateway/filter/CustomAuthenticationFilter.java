@@ -13,7 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -55,7 +54,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", accessToken);
         tokens.put("name", person.getName());
-        if (person.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList().contains("TRAINER")) {
+        if (person.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("TRAINER")) {
             tokens.put("trainer", "true");
         }
         response.setContentType(APPLICATION_JSON_VALUE);

@@ -25,10 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     public SecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
@@ -47,12 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/public").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/users").hasAnyRole("USER", "TRAINER")
-                .antMatchers("/users/{id}").hasAnyRole("USER", "TRAINER")
-                .antMatchers("/users/{id}/goals").hasAnyRole("USER", "TRAINER")
-                .antMatchers("/users/{id}/goals/{goalId}").hasAnyRole("USER", "TRAINER")
-                .antMatchers("/users/createWorkout").hasRole("TRAINER")
-                .antMatchers("/users/createExercise").hasRole("TRAINER")
+                .antMatchers("/users").hasAnyAuthority("USER", "TRAINER")
+                .antMatchers("/users/{id}").hasAnyAuthority("USER", "TRAINER")
+                .antMatchers("/users/{id}/goals").hasAnyAuthority("USER", "TRAINER")
+                .antMatchers("/users/{id}/goals/{goalId}").hasAnyAuthority("USER", "TRAINER")
+                .antMatchers("/users/createWorkout").hasAnyAuthority("TRAINER")
+                .antMatchers("/users/createExercise").hasAnyAuthority("TRAINER")
                 .antMatchers("/follow").permitAll()
                 .antMatchers("/unfollow").permitAll()
                 .antMatchers("/workouts").permitAll()

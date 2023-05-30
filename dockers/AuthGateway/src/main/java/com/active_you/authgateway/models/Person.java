@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,9 @@ public class Person {
     private String weightUnit;
     private String sex;
     private String role;
+
+    @ManyToMany
+    @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
+    @OrderBy(value = "id")
+    private Set<Role> roles;
 }

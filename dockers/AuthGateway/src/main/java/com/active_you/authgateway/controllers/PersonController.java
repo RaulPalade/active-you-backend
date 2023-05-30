@@ -2,7 +2,7 @@ package com.active_you.authgateway.controllers;
 
 import com.active_you.authgateway.models.Person;
 import com.active_you.authgateway.rabbitmq.RabbitMQConfig;
-import com.active_you.authgateway.service.PersonService;
+import com.active_you.authgateway.service.UserServiceImpl;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,12 +17,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/v1/users")
 public class PersonController {
-    private final PersonService personService;
+    private final UserServiceImpl userServiceImpl;
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public PersonController(PersonService personService, RabbitTemplate rabbitTemplate) {
-        this.personService = personService;
+    public PersonController(UserServiceImpl userServiceImpl, RabbitTemplate rabbitTemplate) {
+        this.userServiceImpl = userServiceImpl;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -31,7 +31,7 @@ public class PersonController {
         Map<String, String> response = new HashMap<>();
 
         try {
-            personService.saveUser(person);
+            userServiceImpl.saveUser(person);
             rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
         } catch (DataIntegrityViolationException e) {
             response.put("message", "Email già presente");

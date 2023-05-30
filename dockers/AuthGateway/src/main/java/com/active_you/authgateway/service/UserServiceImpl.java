@@ -17,12 +17,12 @@ import java.util.Collection;
 
 @Transactional
 @Component
-public class PersonService implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -34,8 +34,7 @@ public class PersonService implements UserDetailsService {
             throw new UsernameNotFoundException("Utente non registrato");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(person.getRole()));
-
+        person.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new MyPerson(person.getId(), person.getName(), person.getEmail(), person.getPassword(), authorities);
     }
 

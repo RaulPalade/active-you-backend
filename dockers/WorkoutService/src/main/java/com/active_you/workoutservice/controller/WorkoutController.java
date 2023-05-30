@@ -9,6 +9,7 @@ import com.active_you.workoutservice.service.WorkoutService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/workouts")
 public class WorkoutController {

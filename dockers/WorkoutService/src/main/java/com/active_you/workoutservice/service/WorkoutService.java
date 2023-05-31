@@ -4,6 +4,7 @@ import com.active_you.workoutservice.models.Exercise;
 import com.active_you.workoutservice.models.Workout;
 import com.active_you.workoutservice.repository.ExerciseRepository;
 import com.active_you.workoutservice.repository.WorkoutRepository;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class WorkoutService {
     }
 
     public List<Workout> findAll() {
-        return workoutRepository.findAll();
+        List<Workout> workouts =  workoutRepository.findAll();
+        return workouts;
     }
 
     public Workout getWorkoutById(Long id) {

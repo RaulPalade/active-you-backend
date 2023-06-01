@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
     @Transactional
-    Set<Goal> findGoalByPerson(Person person);
+    List<Goal> findGoalByPerson(Person person);
 
     @Transactional
     @Modifying(clearAutomatically = true)

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -50,7 +49,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}/goals")
-    public Set<Goal> getPersonalGoals(@PathVariable Long id) {
+    public List<Goal> getPersonalGoals(@PathVariable Long id) {
         return goalService.getPersonalGoals(id);
     }
 

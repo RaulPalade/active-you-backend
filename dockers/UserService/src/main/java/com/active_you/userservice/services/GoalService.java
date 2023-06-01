@@ -55,12 +55,12 @@ public class GoalService {
         }
     }
 
-    public Set<Goal> getPersonalGoals(Long id) {
+    public List<Goal> getPersonalGoals(Long id) {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()) {
             return goalRepository.findGoalByPerson(person.get());
         } else {
-            return new HashSet<>();
+            return new ArrayList<>();
         }
     }
 }

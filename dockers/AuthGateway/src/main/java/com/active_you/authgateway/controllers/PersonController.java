@@ -10,10 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.GET;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -39,7 +36,7 @@ public class PersonController {
     public Map<String, String> create(@RequestBody Person person) {
         Map<String, String> response = new HashMap<>();
 
-        Set<Role> roles = new HashSet<>();
+        List<Role> roles = new ArrayList<>();
         Role role = new Role();
         role.setId(2L);
         roles.add(role);

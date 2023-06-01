@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,11 +28,16 @@ public class Person {
     private double weight;
     private String weightUnit;
     private String sex;
-    private String role;
+
+    @ManyToMany
+    @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
+    @OrderBy(value = "id")
+    @JsonIgnore
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<Goal> myGoals = new HashSet<>();
+    private List<Goal> myGoals;
 
     @OneToMany(mappedBy = "to")
     @JsonIgnore

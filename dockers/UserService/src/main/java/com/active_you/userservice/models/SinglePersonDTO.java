@@ -19,7 +19,7 @@ public class SinglePersonDTO {
     private double weight;
     private String weightUnit;
     private String sex;
-    private String role;
+    private List<String> roles;
     private List<Long> followers;
     private List<Long> following;
 
@@ -33,7 +33,7 @@ public class SinglePersonDTO {
         this.heightUnit = person.getHeightUnit();
         this.weight = person.getWeight();
         this.weightUnit = person.getWeightUnit();
-        this.role = person.getRole();
+        this.roles = person.getRoles().stream().map(Role::getName).collect(Collectors.toList());
         this.following = person.getFollowing().stream().map(PersonFollow::getFromId).collect(Collectors.toList());
         this.followers = person.getFollowers().stream().map(PersonFollow::getToId).collect(Collectors.toList());
     }

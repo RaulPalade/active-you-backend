@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,5 +19,5 @@ public class Workout {
 
     @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Exercise> exercises = new HashSet<>();
+    private List<Exercise> exercises;
 }

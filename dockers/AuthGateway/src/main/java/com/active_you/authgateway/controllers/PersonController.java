@@ -4,6 +4,7 @@ import com.active_you.authgateway.models.Person;
 import com.active_you.authgateway.models.Role;
 import com.active_you.authgateway.rabbitmq.RabbitMQConfig;
 import com.active_you.authgateway.service.UserServiceImpl;
+import com.active_you.authgateway.utils.PersonQueueMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,14 +37,17 @@ public class PersonController {
         Map<String, String> response = new HashMap<>();
 
         List<Role> roles = new ArrayList<>();
-        Role role = new Role();
-        role.setId(2L);
-        roles.add(role);
+        Role role1 = new Role();
+        Role role2 = new Role();
+        role1.setId(1L);
+        role2.setId(2L);
+        roles.add(role1);
+        roles.add(role2);
         person.setRoles(roles);
 
         try {
             userServiceImpl.saveUser(person);
-            rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_PERSON, RabbitMQConfig.ROUTING_KEY_PERSON, new PersonQueueMessage(person, "registerPerson"));
         } catch (DataIntegrityViolationException e) {
             response.put("message", "Email già presente");
             return response;

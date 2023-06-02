@@ -17,7 +17,7 @@ public class MessageListener {
         this.workoutService = workoutService;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    @RabbitListener(queues = RabbitMQConfig.QUEUE_WORKOUT)
     public void listener(QueueMessage message) {
         if (message.getAction().equals("createWorkout")) {
             Long createdBy = message.getCreatedBy();

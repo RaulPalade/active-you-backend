@@ -1,6 +1,6 @@
 package com.active_you.userservice.controllers;
 
-import com.active_you.userservice.utils.QueueMessage;
+import com.active_you.userservice.utils.WorkoutQueueMessage;
 import com.active_you.userservice.models.*;
 import com.active_you.userservice.rabbitmq.RabbitMQConfig;
 import com.active_you.userservice.services.GoalService;
@@ -65,11 +65,11 @@ public class PersonController {
 
     @PostMapping("/createWorkout")
     public void createWorkout(@RequestParam Long createdBy, @RequestBody Workout workout) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, new QueueMessage(createdBy, workout, "createWorkout"));
+        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, new WorkoutQueueMessage(createdBy, workout, "createWorkout"));
     }
 
     @PostMapping("/createExercise")
     public void createExercise(@RequestParam Long workoutId, @RequestBody Exercise exercise) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, new QueueMessage(workoutId, exercise, "createExercise"));
+        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, new WorkoutQueueMessage(workoutId, exercise, "createExercise"));
     }
 }

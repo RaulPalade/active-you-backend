@@ -10,23 +10,23 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String QUEUE_NAME = "workout_queue";
-    public static final String TOPIC_EXCHANGE_NAME = "workout_exchange";
-    public static final String ROUTING_KEY = "workout_key";
+    public static final String QUEUE_WORKOUT = "workout_queue";
+    public static final String TOPIC_EXCHANGE_WORKOUT = "workout_exchange";
+    public static final String ROUTING_KEY_WORKOUT = "workout_key";
 
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME);
+        return new Queue(QUEUE_WORKOUT);
     }
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(TOPIC_EXCHANGE_NAME);
+        return new TopicExchange(TOPIC_EXCHANGE_WORKOUT);
     }
 
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_WORKOUT);
     }
 
     @Bean

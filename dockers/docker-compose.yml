@@ -7,6 +7,16 @@ services:
       - "5672:5672"
       - "15672:15672"
 
+  dbauthgateway:
+    image: "postgres:15.2"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: authgateway
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      restart: unless-stopped
+
   dbperson:
     image: "postgres:15.2"
     ports:
@@ -27,12 +37,19 @@ services:
       POSTGRES_PASSWORD: root
       restart: unless-stopped
 
+  eureka:
+    build: ./eurekaService
+    image: eureka-service
+    container_name: eureka-service
+    ports:
+      - "8761:8761"
+
   user:
     build: ./userService
     image: user-service
     container_name: user-service
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - dbperson
       - rabbitmq
@@ -43,13 +60,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
-
   workout:
     build: ./workoutService
     image: workout-service
     container_name: workout-service
     ports:
-      - "8081:8081"
+      - "8082:8082"
     depends_on:
       - dbworkout
       - rabbitmq
@@ -59,3 +75,23 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  authgateway:
+    build: ./authGateway
+    image: auth-gateway-service
+    container_name: api-gateway-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbauthgateway:5432/authgateway
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - dbauthgateway
+      - user
+      - workout
+      - rabbitmq
+      - eureka

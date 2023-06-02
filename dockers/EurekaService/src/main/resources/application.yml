@@ -1,6 +1,6 @@
 spring:
   application:
-    name: eureka-discovery-service
+    name: eureka-service
 server:
   port: 8761
 eureka:

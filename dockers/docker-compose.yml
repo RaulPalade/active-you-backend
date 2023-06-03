@@ -53,12 +53,14 @@ services:
     depends_on:
       - dbperson
       - rabbitmq
+      - eureka
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_DATASOURCE_URL: jdbc:postgresql://dbperson:5432/person
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   workout:
     build: ./workoutService
@@ -69,12 +71,14 @@ services:
     depends_on:
       - dbworkout
       - rabbitmq
+      - eureka
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_DATASOURCE_URL: jdbc:postgresql://dbworkout:5432/workout
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   authgateway:
     build: ./authGateway

@@ -23,7 +23,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue workoutQueue() {
-        return new Queue(QUEUE_WORKOUT, false);
+        return new Queue(QUEUE_WORKOUT);
     }
 
     @Bean

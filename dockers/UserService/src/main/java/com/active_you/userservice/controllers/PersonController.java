@@ -38,6 +38,12 @@ public class PersonController {
         return personService.getPersonById(Math.toIntExact(id));
     }
 
+    @GetMapping("/emails")
+    public Optional<SinglePersonDTO> getPersonByEmail(@RequestParam String email) {
+        return personService.getPersonByEmail(email);
+    }
+
+
     @PostMapping
     public ResponseEntity<String> addPerson(@RequestBody Person newPerson) {
         return personService.addPerson(newPerson);

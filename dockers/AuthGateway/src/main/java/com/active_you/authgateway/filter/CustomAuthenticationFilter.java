@@ -1,5 +1,6 @@
 package com.active_you.authgateway.filter;
 
+import com.active_you.authgateway.repository.PersonRepository;
 import com.active_you.authgateway.security.MyPerson;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -54,6 +55,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
 
         Map<String, String> tokens = new HashMap<>();
+
+        tokens.put("userId", String.valueOf(person.getId()));
         tokens.put("access_token", accessToken);
         tokens.put("name", person.getName());
         if (person.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("TRAINER")) {

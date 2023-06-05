@@ -14,11 +14,11 @@ public class SinglePersonDTO {
     private String name;
     private String surname;
     private String email;
-    private double height;
-    private String heightUnit;
+    private String sex;
     private double weight;
     private String weightUnit;
-    private String sex;
+    private double height;
+    private String heightUnit;
     private List<String> roles;
     private List<Long> followers;
     private List<Long> following;

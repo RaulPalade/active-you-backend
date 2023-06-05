@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,11 +21,13 @@ public class Person {
     private String surname;
     private String email;
     private String password;
-    private double height;
-    private String heightUnit;
+    private String sex;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateOfBirth;
     private double weight;
     private String weightUnit;
-    private String sex;
+    private double height;
+    private String heightUnit;
 
     @ManyToMany
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))

@@ -1,6 +1,6 @@
 package com.active_you.userservice.rabbitmq;
 
-import com.active_you.userservice.models.Person;
+import com.active_you.userservice.models.PersonRoleWrapper;
 import com.active_you.userservice.services.PersonService;
 import com.active_you.userservice.utils.PersonQueueMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -19,7 +19,7 @@ public class MessageListener {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_PERSON)
     public void listener(PersonQueueMessage message) {
         if (message.getAction().equals("registerPerson")) {
-            Person newPerson = message.getPerson();
+            PersonRoleWrapper newPerson = message.getPersonRoleWrapper();
             if (newPerson != null) {
                 personService.addPerson(newPerson);
             }

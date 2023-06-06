@@ -1,17 +1,17 @@
 package com.active_you.userservice.utils;
 
-import com.active_you.userservice.models.Person;
+import com.active_you.userservice.models.PersonRoleWrapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class PersonQueueMessage {
-    private Person person;
+    private PersonRoleWrapper personRoleWrapper;
     private String action;
 
-    public PersonQueueMessage(Person person, String action) {
-        this.person = person;
+    public PersonQueueMessage(PersonRoleWrapper personRoleWrapper, String action) {
+        this.personRoleWrapper = personRoleWrapper;
         this.action = action;
     }
 }

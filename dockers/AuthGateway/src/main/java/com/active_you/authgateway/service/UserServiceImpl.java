@@ -1,9 +1,11 @@
 package com.active_you.authgateway.service;
 
 import com.active_you.authgateway.models.Person;
+import com.active_you.authgateway.models.PersonRoleWrapper;
+import com.active_you.authgateway.models.Role;
 import com.active_you.authgateway.repository.PersonRepository;
+import com.active_you.authgateway.repository.RoleRepository;
 import com.active_you.authgateway.security.MyPerson;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,11 +26,13 @@ import java.util.Collection;
 public class UserServiceImpl implements UserDetailsService {
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(PersonRepository personRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -41,8 +46,17 @@ public class UserServiceImpl implements UserDetailsService {
         return new MyPerson(person.getId(), person.getName(), person.getEmail(), person.getPassword(), authorities);
     }
 
-    public void saveUser(Person person) {
+    public void saveUser(PersonRoleWrapper personRoleWrapper) {
+        Optional<Role> role = roleRepository.findByName(personRoleWrapper.getRole().getName());
+        Role newRole = new Role();
+        role.ifPresent(value -> newRole.setId(value.getId()));
+
+        Person person = personRoleWrapper.getPerson();
         person.setPassword(passwordEncoder.encode(person.getPassword()));
+
+        person.setRoles(new ArrayList<>());
+        person.getRoles().add(newRole);
+
         personRepository.save(person);
     }
 }

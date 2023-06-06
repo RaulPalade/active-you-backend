@@ -32,7 +32,6 @@ public class Person {
     @ManyToMany
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
     @OrderBy(value = "id")
-    @JsonIgnore
     private List<Role> roles;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)

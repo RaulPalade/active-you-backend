@@ -2,6 +2,7 @@ package com.active_you.userservice.services;
 
 import com.active_you.userservice.models.*;
 import com.active_you.userservice.repository.PersonRepository;
+import com.active_you.userservice.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +13,16 @@ import java.util.*;
 @Component
 public class PersonService {
     private final PersonRepository personRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, RoleRepository roleRepository) {
         this.personRepository = personRepository;
+        this.roleRepository = roleRepository;
     }
 
-    public List<Person> getAllUsers() {
-        return personRepository.findAll();
+    public List<AllPersonDTO> getAllUsers() {
+        return personRepository.findAll().stream().map(AllPersonDTO::new).toList();
     }
 
     public Optional<SinglePersonDTO> getPersonById(long id) {
@@ -31,8 +34,16 @@ public class PersonService {
     }
 
 
-    public ResponseEntity<String> addPerson(Person newPerson) {
+    public ResponseEntity<String> addPerson(PersonRoleWrapper personRoleWrapper) {
         try {
+            Optional<Role> role = roleRepository.findByName(personRoleWrapper.getRole().getName());
+            Role newRole = new Role();
+            role.ifPresent(value -> newRole.setId(value.getId()));
+
+            Person newPerson = personRoleWrapper.getPerson();
+            newPerson.setRoles(new ArrayList<>());
+            newPerson.getRoles().add(newRole);
+            System.out.println(newPerson);
             personRepository.save(newPerson);
             return new ResponseEntity<>("Person added successfully", HttpStatus.OK);
         } catch (Exception e) {

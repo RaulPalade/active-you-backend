@@ -29,7 +29,7 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<Person> getAllPersons() {
+    public List<AllPersonDTO> getAllPersons() {
         return personService.getAllUsers();
     }
 
@@ -45,8 +45,8 @@ public class PersonController {
 
 
     @PostMapping
-    public ResponseEntity<String> addPerson(@RequestBody Person newPerson) {
-        return personService.addPerson(newPerson);
+    public ResponseEntity<String> addPerson(@RequestBody PersonRoleWrapper personRoleWrapper) {
+        return personService.addPerson(personRoleWrapper);
     }
 
     @DeleteMapping("/{id}")

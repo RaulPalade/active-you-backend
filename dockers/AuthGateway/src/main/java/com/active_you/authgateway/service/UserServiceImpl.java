@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserDetailsService {
         return new MyPerson(person.getId(), person.getName(), person.getEmail(), person.getPassword(), authorities);
     }
 
-    public void saveUser(PersonRoleWrapper personRoleWrapper) {
+    public Long saveUser(PersonRoleWrapper personRoleWrapper) {
         Optional<Role> role = roleRepository.findByName(personRoleWrapper.getRole().getName());
         Role newRole = new Role();
         role.ifPresent(value -> newRole.setId(value.getId()));
@@ -57,6 +57,10 @@ public class UserServiceImpl implements UserDetailsService {
         person.setRoles(new ArrayList<>());
         person.getRoles().add(newRole);
 
-        personRepository.save(person);
+        return personRepository.save(person).getId();
+    }
+
+    public void removeUserById(Long id) {
+        personRepository.deleteById(id);
     }
 }

@@ -19,6 +19,7 @@ public class Person {
     private Long id;
     private String name;
     private String surname;
+    @Column(unique = true)
     private String email;
     private String password;
     private String sex;
@@ -29,8 +30,25 @@ public class Person {
     private double height;
     private String heightUnit;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
     @OrderBy(value = "id")
     private List<Role> roles;
+
+    @Override
+    public String toString() {
+        return "{\"id\": " + id +
+                ", \"name\": \"" + name + "\"" +
+                ", \"surname\": \"" + surname + "\"" +
+                ", \"email\": \"" + email + "\"" +
+                ", \"password\": \"" + password + "\"" +
+                ", \"sex\": \"" + sex + "\"" +
+                ", \"dateOfBirth\": " + dateOfBirth.getTime() +
+                ", \"weight\": " + weight +
+                ", \"weightUnit\": \"" + weightUnit + "\"" +
+                ", \"height\": " + height +
+                ", \"heightUnit\": \"" + heightUnit + "\"" +
+                ", \"roles\": " + (roles != null ? roles.toString() : "null") +
+                "}";
+    }
 }

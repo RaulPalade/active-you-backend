@@ -3,13 +3,11 @@ package com.active_you.userservice.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
-@ToString
 @AllArgsConstructor
 @Entity
 @Table
@@ -33,5 +31,19 @@ public class Goal {
 
     public Goal() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "{\"id\": " + id +
+                ", \"name\": \"" + name + "\"" +
+                ", \"type\": \"" + type + "\"" +
+                ", \"weight\": " + weight +
+                ", \"daysPerWeek\": " + daysPerWeek +
+                ", \"initDate\": " + initDate.getTime() +
+                ", \"endDate\": " + endDate.getTime() +
+                ", \"completed\": " + completed +
+                ", \"person\": " + (person != null ? person.toString() : "null") +
+                "}";
     }
 }

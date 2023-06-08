@@ -10,4 +10,12 @@ import lombok.NoArgsConstructor;
 public class PersonRoleWrapper {
     private Person person;
     private Role role;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"person\": " + (person != null ? person.toString() : "null") + "," +
+                "\"role\": " + (role != null ? role.toString() : "null") +
+                "}";
+    }
 }

@@ -14,5 +14,11 @@ public class PersonQueueMessage {
         this.personRoleWrapper = personRoleWrapper;
         this.action = action;
     }
+
+    @Override
+    public String toString() {
+        return "{\"personRoleWrapper\": " + (personRoleWrapper != null ? personRoleWrapper.toString() : "null") +
+                ", \"action\": \"" + action + "\"}";
+    }
 }
 

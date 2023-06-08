@@ -34,7 +34,7 @@ public class PersonService {
     }
 
 
-    public ResponseEntity<String> addPerson(PersonRoleWrapper personRoleWrapper) {
+    public Boolean addPerson(PersonRoleWrapper personRoleWrapper) {
         try {
             Optional<Role> role = roleRepository.findByName(personRoleWrapper.getRole().getName());
             Role newRole = new Role();
@@ -45,10 +45,10 @@ public class PersonService {
             newPerson.getRoles().add(newRole);
             System.out.println(newPerson);
             personRepository.save(newPerson);
-            return new ResponseEntity<>("Person added successfully", HttpStatus.OK);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to add person", HttpStatus.INTERNAL_SERVER_ERROR);
+            return false;
         }
     }
 

@@ -19,7 +19,7 @@ public class PersonWorkout {
     private Long id;
     private Long idPerson;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_workout")
     private Workout workout;
 

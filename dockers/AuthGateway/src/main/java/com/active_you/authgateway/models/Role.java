@@ -18,4 +18,12 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private Set<Person> persons;
+
+    @Override
+    public String toString() {
+        return "{\"id\": " + id +
+                ", \"name\": \"" + name + "\"" +
+                ", \"persons\": " + (persons != null ? persons.toString() : "null") +
+                "}";
+    }
 }

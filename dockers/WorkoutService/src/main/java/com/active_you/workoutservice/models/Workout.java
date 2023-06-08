@@ -16,7 +16,7 @@ public class Workout {
     private String name;
     private String type;
 
-    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
     @Override

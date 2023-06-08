@@ -50,7 +50,7 @@ public class PersonController {
 
 
     @PostMapping
-    public ResponseEntity<String> addPerson(@RequestBody PersonRoleWrapper personRoleWrapper) {
+    public Boolean addPerson(@RequestBody PersonRoleWrapper personRoleWrapper) {
         return personService.addPerson(personRoleWrapper);
     }
 

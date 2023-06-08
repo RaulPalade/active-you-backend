@@ -26,6 +26,7 @@ public class PersonWorkoutController {
 
     @PostMapping
     public ResponseEntity<String> saveWorkoutForUser(@RequestBody PersonWorkout personWorkout) {
+        System.out.println(personWorkout);
         return personWorkoutService.saveWorkoutForUser(personWorkout);
     }
 

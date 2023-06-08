@@ -14,19 +14,31 @@ public class RabbitMQConfig {
     public static final String TOPIC_EXCHANGE_WORKOUT = "workout_exchange";
     public static final String ROUTING_KEY_WORKOUT = "workout_key";
 
+    public static final String QUEUE_REPLY = "reply_queue";
+
     @Bean
-    public Queue queue() {
+    public Queue workoutQueue() {
         return new Queue(QUEUE_WORKOUT);
     }
 
     @Bean
-    public TopicExchange exchange() {
+    public Queue replyQueue() {
+        return new Queue(QUEUE_REPLY);
+    }
+
+    @Bean
+    public TopicExchange workoutExchange() {
         return new TopicExchange(TOPIC_EXCHANGE_WORKOUT);
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_WORKOUT);
+    public Binding bindingWorkout(Queue workoutQueue, TopicExchange workoutExchange) {
+        return BindingBuilder.bind(workoutQueue).to(workoutExchange).with(QUEUE_WORKOUT);
+    }
+
+    @Bean
+    public Binding replyBinding(Queue replyQueue, TopicExchange workoutExchange) {
+        return BindingBuilder.bind(replyQueue).to(workoutExchange).with(QUEUE_REPLY);
     }
 
     @Bean

@@ -1,7 +1,6 @@
-package com.active_you.userservice.utils;
+package Utils;
 
-import com.active_you.userservice.models.Exercise;
-import com.active_you.userservice.models.Workout;
+import com.active_you.workoutservice.models.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WorkoutQueueMessage {
     private Workout workout;
-    private Exercise exercise;
     private String action;
 
     @Override

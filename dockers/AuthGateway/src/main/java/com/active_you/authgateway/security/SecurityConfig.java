@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/userService/api/v1/users/createWorkout").hasAnyAuthority("TRAINER")
                 .antMatchers(POST, "/userService/api/v1/users/createExercise").hasAnyAuthority("TRAINER")
                 .antMatchers(POST, "/userService/api/v1/personFollow/follow").hasAnyAuthority("USER", "TRAINER")
-                .antMatchers(POST, "/userService/api/v1/personFollow/unfollow").hasAnyAuthority("USER", "TRAINER")
+                .antMatchers(DELETE, "/userService/api/v1/personFollow/unfollow").hasAnyAuthority("USER", "TRAINER")
 
                 .antMatchers(GET, "/workoutService/api/v1/workouts").hasAnyAuthority("USER", "TRAINER")
                 .antMatchers(GET, "/workoutService/api/v1/workouts/{id}").hasAnyAuthority("USER", "TRAINER")

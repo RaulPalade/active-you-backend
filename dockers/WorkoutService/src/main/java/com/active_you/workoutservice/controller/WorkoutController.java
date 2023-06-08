@@ -30,11 +30,6 @@ public class WorkoutController {
         return workoutService.getWorkoutById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<String> addWorkout(@RequestBody Workout workout) {
-        return workoutService.addWorkout(workout);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> removeWorkout(@PathVariable Long id) {
         return workoutService.removeWorkout(id);

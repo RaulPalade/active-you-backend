@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 public class PersonWorkout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
     private Long idPerson;
 

@@ -26,32 +26,20 @@ public class WorkoutService {
     }
 
     public List<Workout> findAll() {
-        List<Workout> workouts =  workoutRepository.findAll();
-        return workouts;
+        return workoutRepository.findAll();
     }
 
     public Workout getWorkoutById(Long id) {
         return workoutRepository.findById(id).orElse(null);
     }
 
-    public ResponseEntity<String> addWorkout(Workout workout) {
+    public int addWorkout(Workout workout) {
         try {
-            workoutRepository.save(workout);
-            return new ResponseEntity<>("Workout added successfully", HttpStatus.OK);
+            Workout savedWorkout = workoutRepository.save(workout);
+            return Math.toIntExact(savedWorkout.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to add workout", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public ResponseEntity<String> addWorkout(Long createdBy, Workout workout) {
-        workout.setCreatedById(createdBy);
-        try {
-            workoutRepository.save(workout);
-            return new ResponseEntity<>("Workout added successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Failed to add workout", HttpStatus.INTERNAL_SERVER_ERROR);
+            return -1;
         }
     }
 

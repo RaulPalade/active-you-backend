@@ -1,17 +1,20 @@
 package com.active_you.userservice.controllers;
 
+import com.active_you.userservice.utils.PersonQueueMessage;
 import com.active_you.userservice.utils.WorkoutQueueMessage;
 import com.active_you.userservice.models.*;
 import com.active_you.userservice.rabbitmq.RabbitMQConfig;
 import com.active_you.userservice.services.GoalService;
 import com.active_you.userservice.services.PersonService;
+import com.google.gson.Gson;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -70,12 +73,47 @@ public class PersonController {
     }
 
     @PostMapping("/createWorkout")
-    public void createWorkout(@RequestParam Long createdBy, @RequestBody Workout workout) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, new WorkoutQueueMessage(createdBy, workout, "createWorkout"));
+    public int createWorkout(@RequestBody Workout workout) {
+        Gson gson = new Gson();
+        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
+        Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
+        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, newMessage);
+
+        if (result != null) {
+            String correlationId = newMessage.getMessageProperties().getCorrelationId();
+            HashMap<String, Object> headers = (HashMap<String, Object>) result.getMessageProperties().getHeaders();
+            String msgId = (String) headers.get("spring_returned_message_correlation");
+
+            if (msgId.equals(correlationId)) {
+                String response = new String(result.getBody());
+                return Integer.parseInt(response);
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
     }
 
     @PostMapping("/createExercise")
-    public void createExercise(@RequestParam Long workoutId, @RequestBody Exercise exercise) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, new WorkoutQueueMessage(workoutId, exercise, "createExercise"));
-    }
+    public int createExercise(@RequestBody Exercise exercise) {
+        Gson gson = new Gson();
+        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
+        Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
+        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, newMessage);
+
+        if (result != null) {
+            String correlationId = newMessage.getMessageProperties().getCorrelationId();
+            HashMap<String, Object> headers = (HashMap<String, Object>) result.getMessageProperties().getHeaders();
+            String msgId = (String) headers.get("spring_returned_message_correlation");
+
+            if (msgId.equals(correlationId)) {
+                String response = new String(result.getBody());
+                return Integer.parseInt(response);
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }    }
 }

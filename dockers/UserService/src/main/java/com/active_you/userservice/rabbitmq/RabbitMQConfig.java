@@ -36,6 +36,16 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    Binding authUserBinding() {
+        return BindingBuilder.bind(authUserQueue()).to(authUserExchange()).with(AUTH_USER_QUEUE);
+    }
+
+    @Bean
+    Binding userAuthReplyBinding() {
+        return BindingBuilder.bind(userAuthReply()).to(authUserExchange()).with(USER_AUTH_REPLY);
+    }
+
+    @Bean
     Queue userWorkoutQueue() {
         return new Queue(USER_WORKOUT_QUEUE);
     }

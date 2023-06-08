@@ -56,7 +56,7 @@ public class Person {
                 ", \"surname\": \"" + surname + "\"" +
                 ", \"email\": \"" + email + "\"" +
                 ", \"sex\": \"" + sex + "\"" +
-                ", \"dateOfBirth\": " + dateOfBirth.getTime() +
+                ", \"dateOfBirth\": " + (dateOfBirth != null ? dateOfBirth.getTime() : "null") +
                 ", \"weight\": " + weight +
                 ", \"weightUnit\": \"" + weightUnit + "\"" +
                 ", \"height\": " + height +

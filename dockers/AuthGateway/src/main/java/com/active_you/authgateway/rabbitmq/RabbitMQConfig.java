@@ -29,6 +29,16 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    Binding authUserBinding() {
+        return BindingBuilder.bind(authUserQueue()).to(authUserExchange()).with(AUTH_USER_QUEUE);
+    }
+
+    @Bean
+    Binding userAuthReplyBinding() {
+        return BindingBuilder.bind(userAuthReply()).to(authUserExchange()).with(USER_AUTH_REPLY);
+    }
+
+    @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setReplyAddress(USER_AUTH_REPLY);

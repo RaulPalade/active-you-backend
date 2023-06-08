@@ -1,6 +1,7 @@
 package com.active_you.workoutservice.rabbitmq;
 
 import Utils.WorkoutQueueMessage;
+import com.active_you.workoutservice.models.Exercise;
 import com.active_you.workoutservice.models.Workout;
 import com.active_you.workoutservice.service.WorkoutService;
 import com.google.gson.Gson;
@@ -33,13 +34,21 @@ public class MessageListener {
             Workout workout = workoutQueueMessage.getWorkout();
             if (workout != null) {
                 int idGenerated = workoutService.addWorkout(workout);
-                if (idGenerated != -1) {
-                    Message response = MessageBuilder.withBody(String.valueOf(idGenerated).getBytes()).build();
-                    CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
-                    System.out.println(correlationData);
-                    rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.WORKOUT_USER_REPLY, response, correlationData);
-                }
+                Message response = MessageBuilder.withBody(String.valueOf(idGenerated).getBytes()).build();
+                CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
+                System.out.println(correlationData);
+                rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.WORKOUT_USER_REPLY, response, correlationData);
             }
+        } else if (workoutQueueMessage != null && workoutQueueMessage.getAction().equals("createExercise")) {
+            Exercise exercise = workoutQueueMessage.getExercise();
+            Long idWorkout = workoutQueueMessage.getWorkoutIdForExercise();
+            if (exercise != null) {
+                int idGenerated = workoutService.addExercise(idWorkout, exercise);
+                Message response = MessageBuilder.withBody(String.valueOf(idGenerated).getBytes()).build();
+                CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
+                rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.WORKOUT_USER_REPLY, response, correlationData);
+            }
+
         }
     }
 

@@ -77,7 +77,7 @@ public class PersonController {
     @PostMapping("/createWorkout")
     public int createWorkout(@RequestBody Workout workout) {
         Gson gson = new Gson();
-        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
+        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, null, 0L, "createWorkout");
         Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
         Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.USER_WORKOUT_QUEUE, newMessage);
 
@@ -96,4 +96,28 @@ public class PersonController {
             return -1;
         }
     }
+
+    @PostMapping("/createExercise")
+    public int createExercise(@RequestParam Long id, @RequestBody Exercise exercise) {
+        Gson gson = new Gson();
+        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(null, exercise, id, "createExercise");
+        Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
+        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.USER_WORKOUT_QUEUE, newMessage);
+
+        if (result != null) {
+            String correlationId = newMessage.getMessageProperties().getCorrelationId();
+            HashMap<String, Object> headers = (HashMap<String, Object>) result.getMessageProperties().getHeaders();
+            String msgId = (String) headers.get("spring_returned_message_correlation");
+
+            if (msgId.equals(correlationId)) {
+                String response = new String(result.getBody());
+                return Integer.parseInt(response);
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
+    }
+
 }

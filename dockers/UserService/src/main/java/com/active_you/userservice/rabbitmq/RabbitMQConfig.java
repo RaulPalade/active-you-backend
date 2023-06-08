@@ -12,40 +12,39 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitMQConfig {
 
-    public static final String RPC_QUEUE1 = "queue_1";
-    public static final String RPC_QUEUE2 = "queue_2";
-    public static final String RPC_EXCHANGE = "rpc_exchange";
+    public static final String USER_WORKOUT_QUEUE = "user_workout_queue";
+    public static final String WORKOUT_USER_REPLY = "workout_user_reply";
+    public static final String USER_WORKOUT_EXCHANGE = "user_workout_exchange";
 
     @Bean
-    Queue msgQueue() {
-        return new Queue(RPC_QUEUE1);
+    Queue userWorkoutQueue() {
+        return new Queue(USER_WORKOUT_QUEUE);
     }
 
     @Bean
-    Queue replyQueue() {
-        return new Queue(RPC_QUEUE2);
+    Queue workoutUserReply() {
+        return new Queue(WORKOUT_USER_REPLY);
     }
 
     @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(RPC_EXCHANGE);
+    TopicExchange workoutUserExchange() {
+        return new TopicExchange(USER_WORKOUT_EXCHANGE);
     }
 
     @Bean
-    Binding msgBinding() {
-        return BindingBuilder.bind(msgQueue()).to(exchange()).with(RPC_QUEUE1);
+    Binding userWorkoutBinding() {
+        return BindingBuilder.bind(userWorkoutQueue()).to(workoutUserExchange()).with(USER_WORKOUT_QUEUE);
     }
 
     @Bean
-    Binding replyBinding() {
-        return BindingBuilder.bind(replyQueue()).to(exchange()).with(RPC_QUEUE2);
+    Binding workoutUserReplyBinding() {
+        return BindingBuilder.bind(workoutUserReply()).to(workoutUserExchange()).with(WORKOUT_USER_REPLY);
     }
-
 
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
-        template.setReplyAddress(RPC_QUEUE2);
+        template.setReplyAddress(WORKOUT_USER_REPLY);
         template.setReplyTimeout(5000);
         return template;
     }
@@ -54,76 +53,8 @@ public class RabbitMQConfig {
     SimpleMessageListenerContainer replyContainer(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(RPC_QUEUE2);
+        container.setQueueNames(WORKOUT_USER_REPLY);
         container.setMessageListener(rabbitTemplate(connectionFactory));
         return container;
     }
-
-
-//    public static final String QUEUE_WORKOUT = "workout_queue";
-//    public static final String TOPIC_EXCHANGE_WORKOUT = "workout_exchange";
-//    public static final String ROUTING_KEY_WORKOUT = "workout_key";
-//
-//    public static final String QUEUE_PERSON = "person_queue";
-//    public static final String TOPIC_EXCHANGE_PERSON = "person_exchange";
-//    public static final String ROUTING_KEY_PERSON = "person_key";
-//
-//    public static final String QUEUE_REPLY = "reply_queue";
-//
-//    @Bean
-//    public Queue workoutQueue() {
-//        return new Queue(QUEUE_WORKOUT);
-//    }
-//
-//    @Bean
-//    public Queue personQueue() {
-//        return new Queue(QUEUE_PERSON);
-//    }
-//
-//    @Bean
-//    public Queue replyQueue() {
-//        return new Queue(QUEUE_REPLY);
-//    }
-//
-//    @Bean
-//    public TopicExchange workoutExchange() {
-//        return new TopicExchange(TOPIC_EXCHANGE_WORKOUT);
-//    }
-//
-//    @Bean
-//    public TopicExchange personExchange() {
-//        return new TopicExchange(TOPIC_EXCHANGE_PERSON);
-//    }
-//
-//    @Bean
-//    public Binding bindingWorkout(Queue workoutQueue, TopicExchange workoutExchange) {
-//        return BindingBuilder.bind(workoutQueue).to(workoutExchange).with(QUEUE_WORKOUT);
-//    }
-//
-//    @Bean
-//    public Binding replyBinding(Queue replyQueue, TopicExchange workoutExchange) {
-//        return BindingBuilder.bind(replyQueue).to(workoutExchange).with(QUEUE_WORKOUT);
-//    }
-//
-//    @Bean
-//    public Binding personBinding(Queue personQueue, TopicExchange personExchange) {
-//        return BindingBuilder.bind(personQueue).to(personExchange).with(ROUTING_KEY_PERSON);
-//    }
-//
-//    @Bean
-//    public RabbitTemplate template(ConnectionFactory connectionFactory) {
-//        RabbitTemplate template = new RabbitTemplate(connectionFactory);
-//        template.setReplyAddress(QUEUE_REPLY);
-//        template.setReceiveTimeout(6000);
-//        return template;
-//    }
-//
-//    @Bean
-//    SimpleMessageListenerContainer replyContainer(ConnectionFactory connectionFactory) {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        container.setQueueNames(QUEUE_REPLY);
-//        container.setMessageListener(template(connectionFactory));
-//        return container;
-//    }
 }

@@ -79,7 +79,7 @@ public class PersonController {
         Gson gson = new Gson();
         WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
         Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
-        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_QUEUE1, newMessage);
+        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.USER_WORKOUT_QUEUE, newMessage);
 
         if (result != null) {
             String correlationId = newMessage.getMessageProperties().getCorrelationId();

@@ -23,9 +23,8 @@ public class MessageListener {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.RPC_QUEUE1)
+    @RabbitListener(queues = RabbitMQConfig.USER_WORKOUT_QUEUE)
     public void process(Message message) {
-        Gson gson = new Gson();
         String messageBody = new String(message.getBody());
         WorkoutQueueMessage workoutQueueMessage = deserializeMessageMessageFromString(messageBody);
         System.out.println(workoutQueueMessage);
@@ -38,18 +37,10 @@ public class MessageListener {
                     Message response = MessageBuilder.withBody(String.valueOf(idGenerated).getBytes()).build();
                     CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
                     System.out.println(correlationData);
-                    rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_QUEUE2, response, correlationData);
+                    rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_WORKOUT_EXCHANGE, RabbitMQConfig.WORKOUT_USER_REPLY, response, correlationData);
                 }
             }
         }
-//        } else if (message.getAction() != null && message.getAction().equals("createExercise")) {
-//            Long workoutId = message.getWorkoutId();
-//            Exercise exercise = message.getExercise();
-//            if (exercise != null) {
-//                System.out.println("CREATE EXERCISE MESSAGE");
-//                workoutService.addExercise(workoutId, exercise);
-//            }
-//        }
     }
 
     private WorkoutQueueMessage deserializeMessageMessageFromString(String messageBody) {

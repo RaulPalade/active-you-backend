@@ -16,13 +16,13 @@ public class MessageListener {
         this.personService = personService;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_PERSON)
-    public void listener(PersonQueueMessage message) {
-        if (message.getAction().equals("registerPerson")) {
-            PersonRoleWrapper newPerson = message.getPersonRoleWrapper();
-            if (newPerson != null) {
-                personService.addPerson(newPerson);
-            }
-        }
-    }
+//    @RabbitListener(queues = RabbitMQConfig.QUEUE_PERSON)
+//    public void listener(PersonQueueMessage message) {
+//        if (message.getAction().equals("registerPerson")) {
+//            PersonRoleWrapper newPerson = message.getPersonRoleWrapper();
+//            if (newPerson != null) {
+//                personService.addPerson(newPerson);
+//            }
+//        }
+//    }
 }

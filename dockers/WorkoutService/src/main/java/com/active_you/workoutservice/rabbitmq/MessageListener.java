@@ -23,8 +23,9 @@ public class MessageListener {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_WORKOUT)
+    @RabbitListener(queues = RabbitMQConfig.RPC_QUEUE1)
     public void process(Message message) {
+        Gson gson = new Gson();
         String messageBody = new String(message.getBody());
         WorkoutQueueMessage workoutQueueMessage = deserializeMessageMessageFromString(messageBody);
         System.out.println(workoutQueueMessage);
@@ -36,7 +37,8 @@ public class MessageListener {
                 if (idGenerated != -1) {
                     Message response = MessageBuilder.withBody(String.valueOf(idGenerated).getBytes()).build();
                     CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
-                    rabbitTemplate.sendAndReceive(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.QUEUE_REPLY, response, correlationData);
+                    System.out.println(correlationData);
+                    rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_QUEUE2, response, correlationData);
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.active_you.userservice.controllers;
 
-import com.active_you.userservice.utils.PersonQueueMessage;
 import com.active_you.userservice.utils.WorkoutQueueMessage;
 import com.active_you.userservice.models.*;
 import com.active_you.userservice.rabbitmq.RabbitMQConfig;
@@ -13,6 +12,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
@@ -77,7 +79,7 @@ public class PersonController {
         Gson gson = new Gson();
         WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
         Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
-        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, newMessage);
+        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_QUEUE1, newMessage);
 
         if (result != null) {
             String correlationId = newMessage.getMessageProperties().getCorrelationId();
@@ -94,26 +96,4 @@ public class PersonController {
             return -1;
         }
     }
-
-    @PostMapping("/createExercise")
-    public int createExercise(@RequestBody Exercise exercise) {
-        Gson gson = new Gson();
-        WorkoutQueueMessage workoutQueueMessage = new WorkoutQueueMessage(workout, "createWorkout");
-        Message newMessage = MessageBuilder.withBody(gson.toJson(workoutQueueMessage).getBytes()).build();
-        Message result = rabbitTemplate.sendAndReceive(RabbitMQConfig.TOPIC_EXCHANGE_WORKOUT, RabbitMQConfig.ROUTING_KEY_WORKOUT, newMessage);
-
-        if (result != null) {
-            String correlationId = newMessage.getMessageProperties().getCorrelationId();
-            HashMap<String, Object> headers = (HashMap<String, Object>) result.getMessageProperties().getHeaders();
-            String msgId = (String) headers.get("spring_returned_message_correlation");
-
-            if (msgId.equals(correlationId)) {
-                String response = new String(result.getBody());
-                return Integer.parseInt(response);
-            } else {
-                return -1;
-            }
-        } else {
-            return -1;
-        }    }
 }

@@ -53,16 +53,16 @@ public class WorkoutService {
         }
     }
 
-    public ResponseEntity<String> addExercise(Long id, Exercise exercise) {
+    public int addExercise(Long idWorkout, Exercise exercise) {
         System.out.println(exercise);
         try {
-            Optional<Workout> workout = workoutRepository.findById(id);
+            Optional<Workout> workout = workoutRepository.findById(idWorkout);
             workout.ifPresent(exercise::setWorkout);
-            exerciseRepository.save(exercise);
-            return new ResponseEntity<>("Exercise added successfully", HttpStatus.OK);
+            Exercise savedExercise = exerciseRepository.save(exercise);
+            return Math.toIntExact(savedExercise.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Failed to add exercise", HttpStatus.INTERNAL_SERVER_ERROR);
+            return -1;
         }
     }
 

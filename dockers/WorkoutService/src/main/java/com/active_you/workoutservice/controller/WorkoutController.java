@@ -36,7 +36,7 @@ public class WorkoutController {
     }
 
     @PostMapping("{id}/exercises")
-    public ResponseEntity<String> addExercise(@PathVariable Long id, @RequestBody Exercise exercise) {
+    public int addExercise(@PathVariable Long id, @RequestBody Exercise exercise) {
         return workoutService.addExercise(id, exercise);
     }
 

@@ -2,6 +2,7 @@ package com.active_you.workoutservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,4 +22,14 @@ public class Exercise implements Serializable {
     @JoinColumn(name = "workout_id")
     @JsonIgnore
     private Workout workout;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\": " + id + "," +
+                "\"name\": \"" + name + "\"," +
+                "\"repetitions\": " + repetitions + "," +
+                "\"series\": " + series +
+                "}";
+    }
 }

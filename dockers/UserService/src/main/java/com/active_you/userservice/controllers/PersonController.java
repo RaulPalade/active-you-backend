@@ -66,6 +66,8 @@ public class PersonController {
 
     @PostMapping("/{id}/goals")
     public ResponseEntity<String> addGoal(@PathVariable Long id, @RequestBody Goal goal) {
+        System.out.println(id);
+        System.out.println(goal);
         return goalService.addGoal(id, goal);
     }
 

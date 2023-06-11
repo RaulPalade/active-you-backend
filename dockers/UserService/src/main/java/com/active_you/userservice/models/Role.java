@@ -1,5 +1,6 @@
 package com.active_you.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -23,7 +24,6 @@ public class Role {
     public String toString() {
         return "{\"id\": " + id +
                 ", \"name\": \"" + name + "\"" +
-                ", \"persons\": " + (persons != null ? persons.toString() : "null") +
                 "}";
     }
 }

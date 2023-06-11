@@ -40,8 +40,8 @@ public class Goal {
                 ", \"type\": \"" + type + "\"" +
                 ", \"weight\": " + weight +
                 ", \"daysPerWeek\": " + daysPerWeek +
-                ", \"initDate\": " + initDate.getTime() +
-                ", \"endDate\": " + endDate.getTime() +
+                ", \"initDate\": " + (initDate != null ? initDate.getTime() : "null") +
+                ", \"endDate\": " + (endDate != null ? endDate.getTime() : "null") +
                 ", \"completed\": " + completed +
                 ", \"person\": " + (person != null ? person.toString() : "null") +
                 "}";

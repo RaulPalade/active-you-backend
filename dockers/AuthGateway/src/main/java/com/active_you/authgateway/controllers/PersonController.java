@@ -7,6 +7,7 @@ import com.active_you.authgateway.rabbitmq.RabbitMQConfig;
 import com.active_you.authgateway.service.UserServiceImpl;
 import com.active_you.authgateway.utils.PersonQueueMessage;
 import com.active_you.authgateway.utils.SessionManagement;
+import com.active_you.authgateway.utils.Validators;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.gson.GsonFactory;
@@ -44,6 +45,12 @@ public class PersonController {
     @PostMapping("/create")
     public Map<String, String> create(@RequestBody PersonRoleWrapper personRoleWrapper) {
         Map<String, String> response = new HashMap<>();
+
+        if (!Validators.validateEmail(personRoleWrapper.getPerson().getEmail())) {
+            response.put("error", "email format invalid");
+            return response;
+        }
+
         try {
             Long createdId = userServiceImpl.saveUser(personRoleWrapper);
             Gson gson = new Gson();

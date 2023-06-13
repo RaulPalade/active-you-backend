@@ -35,6 +35,10 @@ public class UserServiceImpl implements UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
+    public Person findPersonByEmail(String email) {
+        return personRepository.findByEmail(email);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Person person = personRepository.findByEmail(email);

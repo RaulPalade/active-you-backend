@@ -28,7 +28,7 @@ public class Person {
     private double height;
     private String heightUnit;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
     @OrderBy(value = "id")
     private List<Role> roles;
@@ -37,11 +37,11 @@ public class Person {
     @JsonIgnore
     private List<Goal> myGoals;
 
-    @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "to")
     @JsonIgnore
     private List<PersonFollow> followers;
 
-    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "from")
     @JsonIgnore
     private List<PersonFollow> following;
 

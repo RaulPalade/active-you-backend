@@ -30,7 +30,7 @@ public class Person {
     private double height;
     private String heightUnit;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person"), inverseJoinColumns = @JoinColumn(name = "role"))
     @OrderBy(value = "id")
     private List<Role> roles;
